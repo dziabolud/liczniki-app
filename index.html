@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liczniki z Logami</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="main-container">
+        <!-- Logi po lewej stronie -->
+        <div class="log-container">
+            <h3>Logi</h3>
+            <!-- Przycisk do czyszczenia logów -->
+            <button id="clear-logs" class="clear-logs-button">Wyczyść logi</button>
+            <div id="log-list" class="log-list"></div>
+        </div>
+
+        <!-- Liczniki -->
+        <div class="counter-container">
+            <div class="counter">
+                <h2>Holownik</h2>
+                <p id="holownik-count">0</p>
+                <button onclick="increment('holownik')">+1</button>
+                <button onclick="decrement('holownik')">-1</button>
+                <button onclick="showResetModal('holownik')">Reset</button>
+            </div>
+
+            <div class="counter">
+                <h2>Złomiarz</h2>
+                <p id="zlomiarz-count">0</p>
+                <button onclick="increment('zlomiarz')">+1</button>
+                <button onclick="decrement('zlomiarz')">-1</button>
+                <button onclick="showResetModal('zlomiarz')">Reset</button>
+            </div>
+
+            <div class="counter">
+                <h2>Kurier</h2>
+                <p id="kurier-count">0</p>
+                <button onclick="increment('kurier')">+1</button>
+                <button onclick="decrement('kurier')">-1</button>
+                <button onclick="showResetModal('kurier')">Reset</button>
+            </div>
+
+            <div class="counter">
+                <h2>Elektryk</h2>
+                <p id="elektryk-count">0</p>
+                <button onclick="increment('elektryk')">+1</button>
+                <button onclick="decrement('elektryk')">-1</button>
+                <button onclick="showResetModal('elektryk')">Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customowy modal do potwierdzenia resetu -->
+    <div id="resetModal" class="modal">
+        <div class="modal-content">
+            <p id="modal-message">Czy na pewno chcesz zresetować licznik?</p>
+            <button id="confirm-reset">Tak</button>
+            <button id="cancel-reset">Nie</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

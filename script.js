@@ -1,7 +1,8 @@
 // Przykładowe konta lokalne
 const accounts = {
     dziabolud: 'chuj',
-    user2: 'password2'
+    mty: 'chuj',
+    Ever: 'chuj'
 };
 
 let currentUser = null;  // Aktualnie zalogowany użytkownik
@@ -28,6 +29,9 @@ function login() {
         
         // Wczytaj liczniki użytkownika
         loadUserCounters();
+
+        // Wczytaj liczniki innych użytkowników
+        loadOtherUsersCounters();
 
     } else {
         loginMessage.innerText = 'Błędna nazwa użytkownika lub hasło.';
@@ -144,6 +148,63 @@ function addLogToDOM(timeString, counterName, action, scroll = true) {
         logList.scrollTop = logList.scrollHeight;
     }
 }
+function loadOtherUsersCounters() {
+    const otherUsersList = document.getElementById('other-users-list');
+    otherUsersList.innerHTML = ''; // Wyczyść listę przed załadowaniem
+
+    // Przejdź przez wszystkich użytkowników (dla przykładu "accounts")
+    for (let username in accounts) {
+        if (username !== currentUser) {  // Pomiń aktualnie zalogowanego użytkownika
+            // Pobierz liczniki tego użytkownika
+            const savedCounters = localStorage.getItem(`counters_${username}`);
+            const counters = savedCounters ? JSON.parse(savedCounters) : {
+                holownik: 0,
+                zlomiarz: 0,
+                kurier: 0,
+                elektryk: 0
+            };
+
+            // Tworzenie elementów do wyświetlenia liczników tego użytkownika
+            const userSection = document.createElement('div');
+            userSection.classList.add('user-section');
+
+            // Tworzymy nagłówek osobno, poza sekcją z licznikami
+            const userHeader = document.createElement('h3');
+            userHeader.innerText = `Licznik użytkownika: ${username}`;
+            userSection.appendChild(userHeader);
+
+            // Tworzymy kontener na liczniki (counter-container)
+            const counterContainer = document.createElement('div');
+            counterContainer.classList.add('counter-container');
+
+            // Tworzenie liczników dla każdego użytkownika wewnątrz counter-container
+            for (let counterName in counters) {
+                const counterDiv = document.createElement('div');
+                counterDiv.classList.add('counter-item');
+
+                const counterLabel = document.createElement('span');
+                counterLabel.innerText = `${counterName.toUpperCase()}: `;
+                counterDiv.appendChild(counterLabel);
+
+                const counterValue = document.createElement('span');
+                counterValue.id = `${username}-${counterName}-count`;
+                counterValue.innerText = counters[counterName];
+                counterDiv.appendChild(counterValue);
+
+                // Dodajemy element z licznikiem do kontenera
+                counterContainer.appendChild(counterDiv);
+            }
+
+            // Dodajemy kontener z licznikami do sekcji użytkownika
+            userSection.appendChild(counterContainer);
+
+            // Dodanie sekcji użytkownika do listy
+            otherUsersList.appendChild(userSection);
+        }
+    }
+}
+
+
 
 
 // Funkcje dla liczników

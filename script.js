@@ -96,13 +96,16 @@ function addLog(counterName, action) {
 }
 // Funkcja do czyszczenia logów
 function clearLogs() {
-    // Usunięcie logów z LocalStorage
-    localStorage.removeItem('logs');
+    if (currentUser) {
+        // Usunięcie logów z LocalStorage dla aktualnie zalogowanego użytkownika
+        localStorage.removeItem(`logs_${currentUser}`);
 
-    // Usunięcie logów z DOM
-    const logList = document.getElementById('log-list');
-    logList.innerHTML = '';
+        // Usunięcie logów z DOM
+        const logList = document.getElementById('log-list');
+        logList.innerHTML = '';
+    }
 }
+
 
 // Dodajemy obsługę kliknięcia dla przycisku "Wyczyść logi"
 document.getElementById('clear-logs').addEventListener('click', clearLogs);

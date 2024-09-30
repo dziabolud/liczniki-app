@@ -4,6 +4,8 @@ const accounts = {
     user2: 'password2'
 };
 
+let currentUser = null;  // Aktualnie zalogowany użytkownik
+
 // Funkcja do logowania
 function login() {
     const username = document.getElementById('username').value;
@@ -15,56 +17,65 @@ function login() {
         loginMessage.innerText = 'Zalogowano pomyślnie!';
         loginMessage.style.color = 'green';
 
+        // Ustaw aktualnego użytkownika
+        currentUser = username;
+
         // Ukryj nakładkę po udanym logowaniu
         overlay.style.display = 'none'; // Ustaw nakładkę jako niewidoczną
         
-        // Możesz dodać logikę po zalogowaniu, np. ukrycie formularza logowania
+        // Wczytaj liczniki użytkownika
+        loadUserCounters();
+
     } else {
         loginMessage.innerText = 'Błędna nazwa użytkownika lub hasło.';
     }
 }
 
-
-
 // Dodajemy obsługę kliknięcia dla przycisku logowania
 document.getElementById('login-button').addEventListener('click', login);
 
-let counters = {
-    holownik: 0,
-    zlomiarz: 0,
-    kurier: 0,
-    elektryk: 0
-};
-
-// Funkcja inicjalizująca - wczytuje dane z LocalStorage
-function initialize() {
-    // Wczytanie liczników z LocalStorage
-    const savedCounters = localStorage.getItem('counters');
+function loadUserCounters() {
+    const savedCounters = localStorage.getItem(`counters_${currentUser}`);
     if (savedCounters) {
         counters = JSON.parse(savedCounters);
+    } else {
+        counters = {
+            holownik: 0,
+            zlomiarz: 0,
+            kurier: 0,
+            elektryk: 0
+        };
     }
-    
+
     // Zaktualizowanie wyświetlanych wartości liczników
     for (let counterName in counters) {
         updateCounter(counterName);
     }
 
-    // Wczytanie logów z LocalStorage
-    const savedLogs = localStorage.getItem('logs');
+    loadUserLogs();
+}
+
+function saveCounters() {
+    if (currentUser) {
+        localStorage.setItem(`counters_${currentUser}`, JSON.stringify(counters));
+    }
+}
+
+function loadUserLogs() {
+    const savedLogs = localStorage.getItem(`logs_${currentUser}`);
+    const logList = document.getElementById('log-list');
+    logList.innerHTML = '';  // Wyczyść aktualne logi z DOM
+    
     if (savedLogs) {
         const logs = JSON.parse(savedLogs);
         logs.forEach(log => addLogToDOM(log.time, log.counterName, log.action, false));
     }
 }
 
-// Zapisuje aktualne liczniki do LocalStorage
-function saveCounters() {
-    localStorage.setItem('counters', JSON.stringify(counters));
-}
-
-// Funkcja do zapisu logów w LocalStorage
 function saveLog(logs) {
-    localStorage.setItem('logs', JSON.stringify(logs));
+    if (currentUser) {
+        localStorage.setItem(`logs_${currentUser}`, JSON.stringify(logs));
+    }
 }
 
 // Funkcja dodająca logi
@@ -74,14 +85,10 @@ function addLog(counterName, action) {
 
     const log = { time: timeString, counterName: counterName, action: action };
     
-    // Wczytanie aktualnych logów z LocalStorage
-    const logs = JSON.parse(localStorage.getItem('logs')) || [];
-    
-    // Dodanie nowego logu
+    const logs = JSON.parse(localStorage.getItem(`logs_${currentUser}`)) || [];
     logs.push(log);
-    saveLog(logs); // Zapisanie logów do LocalStorage
+    saveLog(logs);
     
-    // Dodanie logu do DOM
     addLogToDOM(timeString, counterName, action);
 }
 // Funkcja do czyszczenia logów
@@ -104,33 +111,29 @@ function addLogToDOM(timeString, counterName, action, scroll = true) {
     const logItem = document.createElement('div');
     logItem.classList.add('log-item');
 
-    // Tworzenie elementu z czasem
     const logTime = document.createElement('span');
     logTime.classList.add('log-time');
     logTime.innerText = `[${timeString}] `;
 
-    // Tworzenie elementu z akcją
     const logAction = document.createElement('span');
     logAction.classList.add('log-action');
-
-    // Ustawienie klasy i tekstu w zależności od akcji
     logAction.innerText = `${counterName.toUpperCase()}: `;
+
     if (action === 'dodano 1') {
         logAction.classList.add('add');
-        logAction.innerText += action; // Biały tekst
+        logAction.innerText += action;
     } else if (action === 'odjęto 1') {
         logAction.classList.add('subtract');
-        logAction.innerText += action; // Niebieski tekst
+        logAction.innerText += action;
     } else if (action === 'zresetowano licznik') {
         logAction.classList.add('reset');
-        logAction.innerText += action; // Czerwony tekst
+        logAction.innerText += action;
     }
 
     logItem.appendChild(logTime);
     logItem.appendChild(logAction);
     logList.appendChild(logItem);
 
-    // Scrollowanie do dołu tylko, jeśli wymagane
     if (scroll) {
         logList.scrollTop = logList.scrollHeight;
     }

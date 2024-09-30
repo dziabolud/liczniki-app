@@ -20,6 +20,9 @@ function login() {
         // Ustaw aktualnego użytkownika
         currentUser = username;
 
+        // Aktualizacja nagłówka z nazwą użytkownika
+        document.getElementById('username-header').innerText = currentUser;
+
         // Ukryj nakładkę po udanym logowaniu
         overlay.style.display = 'none'; // Ustaw nakładkę jako niewidoczną
         
@@ -179,6 +182,14 @@ function closeModal() {
 
 function updateCounter(counterName) {
     document.getElementById(`${counterName}-count`).innerText = counters[counterName];
+}
+
+function logout() {
+    currentUser = null;
+    document.getElementById('overlay').style.display = 'block';
+    
+    // Wyczyść nagłówek z nazwą użytkownika
+    document.getElementById('username-header').innerText = '';
 }
 
 // Dodajemy obsługę kliknięć przycisków w modalnym oknie

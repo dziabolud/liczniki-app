@@ -245,8 +245,16 @@ function closeModal() {
 }
 
 function updateCounter(counterName) {
+    // Zaktualizuj wartość licznika
     document.getElementById(`${counterName}-count`).innerText = counters[counterName];
+
+    // Oblicz procent postępu w odniesieniu do wartości maksymalnej (200)
+    const progressPercentage = (counters[counterName] / 200) * 100;
+
+    // Ustaw szerokość paska postępu
+    document.getElementById(`${counterName}-progress`).style.width = `${progressPercentage}%`;
 }
+
 
 function logout() {
     currentUser = null;

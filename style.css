@@ -294,3 +294,19 @@ button[disabled] {
     text-align: center;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
+.progress-container {
+    width: 100%;
+    height: 10px; /* Wysokość paska postępu */
+    background-color: #555; /* Kolor tła paska postępu */
+    border-radius: 5px; /* Zaokrąglone rogi */
+    margin-top: 10px; /* Odstęp od tekstu */
+    overflow: hidden; /* Ukrycie nadmiaru */
+}
+
+.progress-bar {
+    height: 100%; /* Wysokość paska postępu */
+    width: 0; /* Początkowa szerokość paska postępu */
+    background-color: #BD6CFC; /* Kolor paska postępu */
+    transition: width 0.3s; /* Animacja przejścia */
+}

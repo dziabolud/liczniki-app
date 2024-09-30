@@ -1,3 +1,27 @@
+// Przykładowe konta lokalne
+const accounts = {
+    dziabolud: 'chuj',
+    user2: 'password2'
+};
+
+// Funkcja do logowania
+function login() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const loginMessage = document.getElementById('login-message');
+
+    if (accounts[username] && accounts[username] === password) {
+        loginMessage.innerText = 'Zalogowano pomyślnie!';
+        loginMessage.style.color = 'green';
+        // Możesz dodać logikę po zalogowaniu, np. ukrycie formularza logowania
+    } else {
+        loginMessage.innerText = 'Błędna nazwa użytkownika lub hasło.';
+    }
+}
+
+// Dodajemy obsługę kliknięcia dla przycisku logowania
+document.getElementById('login-button').addEventListener('click', login);
+
 let counters = {
     holownik: 0,
     zlomiarz: 0,

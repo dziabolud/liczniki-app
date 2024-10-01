@@ -4,7 +4,8 @@ const accounts = {
     mty: 'chuj',
     Ever: 'chuj',
     Waxuu: 'chuj',
-    antek: 'chuj'
+    antek: 'chuj',
+    sinan: 'chuj'
 
 };
 

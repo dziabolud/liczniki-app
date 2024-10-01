@@ -2,7 +2,8 @@
 const accounts = {
     dziabolud: 'chuj',
     mty: 'chuj',
-    Ever: 'chuj'
+    Ever: 'chuj',
+    antek: 'chuj'
 };
 
 let currentUser = null;  // Aktualnie zalogowany użytkownik

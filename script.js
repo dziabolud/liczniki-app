@@ -5,6 +5,8 @@ const accounts = {
     Ever: 'chuj',
     Waxuu: 'chuj',
     antek: 'chuj',
+    sasza: 'chuj',
+    salvador: 'chuj',
     sinan: 'chuj'
 
 };
